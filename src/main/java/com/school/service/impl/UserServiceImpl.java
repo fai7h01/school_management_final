@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
         switch (roleDescription){
             case "Admin":
                 long adminCount = listAllUsers().stream().filter(userDTO -> userDTO.getRole().getDescription().equals("Admin")).count();
-                if (adminCount == 1){
+                if (adminCount == 2){
                     return "This Admin is unique in system and can not be deleted.";
                 }
                 return "";

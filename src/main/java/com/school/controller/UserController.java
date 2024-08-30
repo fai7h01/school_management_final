@@ -67,7 +67,6 @@ public class UserController {
         if (!eligibleToDelete.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", eligibleToDelete);
         } else {
-
             redirectAttributes.addFlashAttribute("success", "Successfully deleted");
             userService.delete(id);
         }
