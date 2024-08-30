@@ -11,7 +11,7 @@ public interface UserService {
 
     List<UserDTO> listAllByRole(String roleDescription);
 
-    UserDTO findByUsername(String username);
+    UserDTO findById(Long id);
 
     UserDTO save(UserDTO user);
 
@@ -23,9 +23,7 @@ public interface UserService {
 
     boolean isEmailRegistered(String email);
 
-//    boolean isEligibleToUpdate(Long userId, Long roleId);
-//
-//    String isEligibleToDelete(Long id);
+    String isEligibleToDelete(Long id);
 
 
 }

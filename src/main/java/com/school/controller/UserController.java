@@ -8,10 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -63,21 +60,19 @@ public class UserController {
         return "redirect:/user/create";
     }
 
-//
-//    @GetMapping("/delete/{username}")
-//    public String deleteUser(@PathVariable("username") String username, RedirectAttributes redirectAttributes) {
-//        String eligibleToDelete = userService.isEligibleToDelete(username);
-//        if (!eligibleToDelete.isEmpty()) {
-//            redirectAttributes.addFlashAttribute("error", eligibleToDelete);
-//        } else {
-//
-//            redirectAttributes.addFlashAttribute("success", "Successfully deleted");
-//            userService.deleteById(username);
-//        }
-//
-//
-//        return "redirect:/user/create";
-//    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteUser(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        String eligibleToDelete = userService.isEligibleToDelete(id);
+        if (!eligibleToDelete.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", eligibleToDelete);
+        } else {
+
+            redirectAttributes.addFlashAttribute("success", "Successfully deleted");
+            userService.delete(id);
+        }
+        return "redirect:/user/create";
+    }
 //
 //    @GetMapping("/update/{username}")
 //    public String updateUser(@PathVariable("username") String username, Model model) {

@@ -35,8 +35,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO findByUsername(String username) {
-        return mapper.convert(userRepository.findByUserName(username), new UserDTO());
+    public UserDTO findById(Long id) {
+        User foundUser = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found."));
+        return mapper.convert(foundUser, new UserDTO());
     }
 
     @Override
@@ -71,4 +72,24 @@ public class UserServiceImpl implements UserService {
     public boolean isEmailRegistered(String email) {
         return userRepository.findAll().stream().anyMatch(user -> user.getUserName().equals(email));
     }
+
+    @Override
+    public String isEligibleToDelete(Long id) {
+        String roleDescription = findById(id).getRole().getDescription();
+        switch (roleDescription){
+            case "Admin":
+                long adminCount = listAllUsers().stream().filter(userDTO -> userDTO.getRole().getDescription().equals("Admin")).count();
+                if (adminCount == 1){
+                    return "This Admin is unique in system and can not be deleted.";
+                }
+                return "";
+            case "Manager":
+                return "";
+            case "Instructor":
+                return "";
+            default:
+                return "";
+        }
+    }
+
 }
