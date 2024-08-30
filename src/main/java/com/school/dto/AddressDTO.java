@@ -1,6 +1,6 @@
 package com.school.dto;
 
-import com.cydeo.enums.State;
+import com.school.enums.State;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;

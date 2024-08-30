@@ -1,6 +1,5 @@
 package com.school.dto;
 
-import com.cydeo.entity.Course;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -28,7 +27,7 @@ public class LessonDTO {
     private String description;
 
     @NotNull(message = "Select a course")
-    private Course course;
+    private CourseDTO course;
 
     @NotNull(message = "Select an instructor")
     private UserDTO instructor;

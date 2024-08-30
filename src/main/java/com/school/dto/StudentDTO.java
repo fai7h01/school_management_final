@@ -1,7 +1,6 @@
 package com.school.dto;
 
-import com.cydeo.entity.Address;
-import com.cydeo.enums.Gender;
+import com.school.enums.Gender;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
@@ -35,6 +34,6 @@ public class StudentDTO {
 
     @Valid
     @NotNull
-    private Address address;
+    private AddressDTO address;
 
 }
