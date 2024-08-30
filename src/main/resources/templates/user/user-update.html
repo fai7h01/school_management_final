@@ -18,12 +18,12 @@
         <div id="content">
 
             <!-- Topbar -->
-            <nav th:replace="fragments::nav-bar"/>
+            <nav th:replace="fragments::nav-bar"></nav>
             <div style="font-weight: bold; color: darkblue">
                 <h1>User Edit Page</h1>
             </div>
 
-            <form th:object="${user}" th:action="@{/user/update}" method="post">
+            <form th:object="${user}" th:action="@{/user/update/{id} (id=${user.id})}" method="post">
                 <div class="row col-12">
                     <div class="col-3 form-group">
                         <label>First Name
@@ -162,12 +162,14 @@
         </div>
         <div class="alert alert-danger text-center" style="margin: 10px" role="alert" th:text="${error}"
              th:if="${error}"></div>
+        <div class="alert alert-success text-center" role="alert" th:text="${success}"
+             th:if="${success}"></div>
 
         <!-- End of Main Content -->
 
 
         <!-- Footer -->
-        <footer th:replace="fragments::footer"/>
+        <footer th:replace="fragments::footer"></footer>
         <!-- End of Footer -->
 
     </div>
@@ -180,9 +182,9 @@
 </a>
 
 <!-- Logout Modal-->
-<div th:replace="fragments::logout-modal"/>
+<div th:replace="fragments::logout-modal"></div>
 
-<div th:replace="fragments::js"/>
+<div th:replace="fragments::js"></div>
 
 </body>
 

@@ -23,6 +23,8 @@ public interface UserService {
 
     boolean isEmailRegistered(String email);
 
+    boolean isRoleEligibleToUpdate(Long id, Long roleId);
+
     String isEligibleToDelete(Long id);
 
 

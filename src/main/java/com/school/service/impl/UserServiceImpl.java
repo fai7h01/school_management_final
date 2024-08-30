@@ -48,11 +48,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO update(UserDTO user) {
-        User foundUser = userRepository.findByUserName(user.getUserName());
-        User convertedUser = mapper.convert(user, new User());
-        convertedUser.setId(foundUser.getId());
-        User savedUser = userRepository.save(convertedUser);
-        return mapper.convert(savedUser, new UserDTO());
+        return mapper.convert(userRepository.save(mapper.convert(user,new User())), new UserDTO());
     }
 
     @Override
@@ -74,12 +70,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean isRoleEligibleToUpdate(Long id, Long roleId) {
+        return isEligibleToDelete(id).isEmpty();
+    }
+
+    @Override
     public String isEligibleToDelete(Long id) {
         String roleDescription = findById(id).getRole().getDescription();
         switch (roleDescription){
             case "Admin":
                 long adminCount = listAllUsers().stream().filter(userDTO -> userDTO.getRole().getDescription().equals("Admin")).count();
-                if (adminCount == 2){
+                if (adminCount == 1){
                     return "This Admin is unique in system and can not be deleted.";
                 }
                 return "";

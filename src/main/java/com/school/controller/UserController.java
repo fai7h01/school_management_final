@@ -26,12 +26,10 @@ public class UserController {
 
     @GetMapping("/create")
     public String createUser(Model model) {
-
         model.addAttribute("user", new UserDTO());
         model.addAttribute("users", userService.listAllUsers());
         model.addAttribute("roles", roleService.findAll());
         model.addAttribute("states", State.values());
-
         return "/user/user-create";
     }
 
@@ -51,7 +49,6 @@ public class UserController {
             model.addAttribute("roles", roleService.findAll());
             model.addAttribute("states", State.values());
             model.addAttribute("users", userService.listAllUsers());
-
             return "/user/user-create";
         }
 
@@ -72,49 +69,37 @@ public class UserController {
         }
         return "redirect:/user/create";
     }
-//
-//    @GetMapping("/update/{username}")
-//    public String updateUser(@PathVariable("username") String username, Model model) {
-//
-//        model.addAttribute("user", userService.findById(username));
-//
-//        model.addAttribute("roles", roleService.findAll());
-//
-//        model.addAttribute("states", State.values());
-//
-//        return "/user/user-update";
-//    }
-//
-//    @PostMapping("/update")
-//    public String updateUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
-//
-//
-//        if (!userService.isEligibleToUpdate(user.getUserName(), user.getRole().getId())) {
-//            redirectAttributes.addFlashAttribute("error", "Not allowed to update role");
-//            return "redirect:/user/update/" + user.getUserName();
-//        }
-//
-//
-//        if (!userService.isPasswordMatched(user.getPassword(), user.getConfirmPassword())) {
-//            bindingResult.rejectValue("confirmPassword", " ", "Password should match");
-//        }
-//
-//        if (bindingResult.hasErrors()) {
-//
-//            model.addAttribute("roles", roleService.findAll());
-//
-//            model.addAttribute("states", State.values());
-//
-//            return "/user/user-update";
-//        }
-//
-//        redirectAttributes.addFlashAttribute("success", "Successfully updated");
-//
-//        userService.update(user);
-//
-//        return "redirect:/user/create";
-//
-//    }
+
+    @GetMapping("/update/{id}")
+    public String updateUser(@PathVariable Long id, Model model) {
+        model.addAttribute("user", userService.findById(id));
+        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("states", State.values());
+        return "/user/user-update";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateUser(@ModelAttribute("user") UserDTO user, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+
+        if (!userService.isRoleEligibleToUpdate(user.getId(), user.getRole().getId())) {
+            redirectAttributes.addFlashAttribute("error", "Not allowed to update role");
+            return "redirect:/user/update/" + user.getId();
+        }
+
+        if (!userService.isPasswordMatched(user.getPassword(), user.getConfirmPassword())) {
+            bindingResult.rejectValue("confirmPassword", " ", "Password should match");
+        }
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("roles", roleService.findAll());
+            model.addAttribute("states", State.values());
+            return "/user/user-update";
+        }
+
+        redirectAttributes.addFlashAttribute("success", "Successfully updated");
+        userService.update(user);
+        return "redirect:/user/create";
+    }
 
     @ModelAttribute
     public void defineGeneralModels(Model model) {
