@@ -4,6 +4,7 @@ import com.school.dto.CourseDTO;
 import com.school.entity.Course;
 import com.school.repository.CourseRepository;
 import com.school.service.CourseService;
+import com.school.service.LessonService;
 import com.school.util.MapperUtil;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +16,12 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
     private final MapperUtil mapper;
+    private final LessonService lessonService;
 
-    public CourseServiceImpl(CourseRepository courseRepository, MapperUtil mapper) {
+    public CourseServiceImpl(CourseRepository courseRepository, MapperUtil mapper, LessonService lessonService) {
         this.courseRepository = courseRepository;
         this.mapper = mapper;
+        this.lessonService = lessonService;
     }
 
     @Override
@@ -47,5 +50,10 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void delete(Long id) {
 
+    }
+
+    @Override
+    public boolean hasAssignedLessons(Long id) {
+        return false;
     }
 }
