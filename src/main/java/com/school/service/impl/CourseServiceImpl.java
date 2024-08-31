@@ -49,11 +49,13 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void delete(Long id) {
-
+        Course foundCourse = courseRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Course not find."));
+        foundCourse.setIsDeleted(true);
+        courseRepository.save(foundCourse);
     }
 
     @Override
     public boolean hasAssignedLessons(Long id) {
-        return false;
+        return !lessonService.findAllByCourseId(id).isEmpty();
     }
 }
