@@ -16,4 +16,6 @@ public interface CourseService {
 
     void delete(Long id);
 
+    boolean hasAssignedLessons(Long id);
+
 }

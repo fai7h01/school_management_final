@@ -59,4 +59,14 @@ public class CourseController {
         courseService.update(courseDTO);
         return "redirect:/course/create";
     }
+
+    @GetMapping("/delete/{id}")
+    public String deleteCourse(@PathVariable Long id, RedirectAttributes redirectAttributes){
+        if (courseService.hasAssignedLessons(id)){
+            redirectAttributes.addFlashAttribute("error", "This course has assigned lesson(s)");
+            return "redirect:/course/create";
+        }
+        courseService.delete(id);
+        return "redirect:/course/create";
+    }
 }
