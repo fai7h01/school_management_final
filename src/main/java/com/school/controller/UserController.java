@@ -4,7 +4,6 @@ import com.school.dto.UserDTO;
 import com.school.enums.State;
 import com.school.service.RoleService;
 import com.school.service.UserService;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,7 +26,7 @@ public class UserController {
     @GetMapping("/create")
     public String createUser(Model model) {
         model.addAttribute("user", new UserDTO());
-        model.addAttribute("users", userService.listAllUsers());
+        model.addAttribute("users", userService.findAll());
         model.addAttribute("roles", roleService.findAll());
         model.addAttribute("states", State.values());
         return "/user/user-create";
@@ -48,7 +47,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("roles", roleService.findAll());
             model.addAttribute("states", State.values());
-            model.addAttribute("users", userService.listAllUsers());
+            model.addAttribute("users", userService.findAll());
             return "/user/user-create";
         }
 

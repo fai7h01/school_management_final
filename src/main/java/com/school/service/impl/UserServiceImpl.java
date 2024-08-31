@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> listAllUsers() {
+    public List<UserDTO> findAll() {
         return userRepository.retrieveAllUsersOrderByDesc().stream()
                 .map(user -> mapper.convert(user, new UserDTO()))
                 .toList();
@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
         String roleDescription = findById(id).getRole().getDescription();
         switch (roleDescription){
             case "Admin":
-                long adminCount = listAllUsers().stream().filter(userDTO -> userDTO.getRole().getDescription().equals("Admin")).count();
+                long adminCount = findAll().stream().filter(userDTO -> userDTO.getRole().getDescription().equals("Admin")).count();
                 if (adminCount == 1){
                     return "This Admin is unique in system and can not be deleted.";
                 }

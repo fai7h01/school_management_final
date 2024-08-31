@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UserService {
 
-    List<UserDTO> listAllUsers();
+    List<UserDTO> findAll();
 
     List<UserDTO> listAllByRole(String roleDescription);
 

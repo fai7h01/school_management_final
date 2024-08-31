@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface CourseService {
 
-    List<CourseDTO> listAllCourses();
+    List<CourseDTO> findAll();
+
+    CourseDTO findById(Long id);
 
     CourseDTO save(CourseDTO course);
 

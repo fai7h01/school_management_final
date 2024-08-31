@@ -6,11 +6,11 @@ import com.school.service.RoleService;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RoleConverter implements Converter<String, RoleDTO> {
+public class RoleDtoConverter implements Converter<String, RoleDTO> {
 
     private final RoleService roleService;
 
-    public RoleConverter(RoleService roleService) {
+    public RoleDtoConverter(RoleService roleService) {
         this.roleService = roleService;
     }
 
