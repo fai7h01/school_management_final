@@ -40,7 +40,8 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseDTO update(CourseDTO course) {
-        return null;
+        Course saved = courseRepository.save(mapper.convert(course, new Course()));
+        return mapper.convert(saved, new CourseDTO());
     }
 
     @Override

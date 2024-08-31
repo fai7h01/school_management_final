@@ -7,10 +7,7 @@ import com.school.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -43,6 +40,23 @@ public class CourseController {
         }
         CourseDTO saved = courseService.save(courseDTO);
         redirectAttributes.addFlashAttribute("success", saved.getName() + " is successfully added to courses");
+        return "redirect:/course/create";
+    }
+
+    @GetMapping("/update/{id}")
+    public String editCourse(@PathVariable Long id, Model model){
+        model.addAttribute("course", courseService.findById(id));
+        model.addAttribute("managers", userService.listAllByRole("Manager"));
+        return "/course/course-update";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateCourse(@ModelAttribute("course") CourseDTO courseDTO, BindingResult bindingResult, Model model){
+        if (bindingResult.hasErrors()){
+            model.addAttribute("managers", userService.listAllByRole("Manager"));
+            return "/course/course-update";
+        }
+        courseService.update(courseDTO);
         return "redirect:/course/create";
     }
 }
