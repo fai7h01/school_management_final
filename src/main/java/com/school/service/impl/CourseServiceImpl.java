@@ -21,7 +21,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CourseDTO> listAllCourses() {
-        return List.of();
+        return courseRepository.findAll().stream().map(course -> mapper.convert(course, new CourseDTO())).toList();
     }
 
     @Override
