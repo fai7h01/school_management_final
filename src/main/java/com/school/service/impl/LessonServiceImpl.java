@@ -1,6 +1,7 @@
 package com.school.service.impl;
 
 import com.school.dto.LessonDTO;
+import com.school.entity.Lesson;
 import com.school.repository.LessonRepository;
 import com.school.service.LessonService;
 import com.school.util.MapperUtil;
@@ -21,7 +22,7 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public List<LessonDTO> findAll() {
-        return List.of();
+        return lessonRepository.findAll().stream().map(lesson -> mapper.convert(lesson, new LessonDTO())).toList();
     }
 
     @Override
@@ -31,7 +32,7 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public LessonDTO save(LessonDTO lesson) {
-        return null;
+        return mapper.convert(lessonRepository.save(mapper.convert(lesson, new Lesson())), new LessonDTO());
     }
 
     @Override
