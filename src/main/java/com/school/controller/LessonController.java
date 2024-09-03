@@ -6,7 +6,10 @@ import com.school.service.LessonService;
 import com.school.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -30,5 +33,17 @@ public class LessonController {
         model.addAttribute("courses", courseService.findAll());
         model.addAttribute("instructors", userService.listAllByRole("instructor"));
         return "/lesson/lesson-create";
+    }
+
+    @PostMapping("/create")
+    public String insertLesson(@ModelAttribute("lesson") LessonDTO lessonDTO, BindingResult bindingResult, Model model){
+        if (bindingResult.hasErrors()){
+            model.addAttribute("lessons", lessonService.findAll());
+            model.addAttribute("courses", courseService.findAll());
+            model.addAttribute("instructors", userService.listAllByRole("instructor"));
+            return "/lesson/lesson-create";
+        }
+        lessonService.save(lessonDTO);
+        return "redirect:/lesson/create";
     }
 }
