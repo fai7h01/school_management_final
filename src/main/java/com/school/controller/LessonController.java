@@ -7,10 +7,7 @@ import com.school.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/lesson")
@@ -44,6 +41,25 @@ public class LessonController {
             return "/lesson/lesson-create";
         }
         lessonService.save(lessonDTO);
+        return "redirect:/lesson/create";
+    }
+
+    @GetMapping("/update/{id}")
+    public String editLesson(@PathVariable Long id, Model model){
+        model.addAttribute("lesson", lessonService.findById(id));
+        model.addAttribute("courses", courseService.findAll());
+        model.addAttribute("instructors", userService.listAllByRole("instructor"));
+        return "/lesson/lesson-update";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateLesson(@ModelAttribute("lesson") LessonDTO lessonDTO, BindingResult bindingResult, Model model){
+        if (bindingResult.hasErrors()){
+            model.addAttribute("courses", courseService.findAll());
+            model.addAttribute("instructors", userService.listAllByRole("instructor"));
+            return "/lesson/lesson-update";
+        }
+        lessonService.update(lessonDTO);
         return "redirect:/lesson/create";
     }
 }
