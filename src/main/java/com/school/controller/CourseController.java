@@ -26,7 +26,7 @@ public class CourseController {
     public String createCourse(Model model){
         model.addAttribute("course", new CourseDTO());
         model.addAttribute("courses", courseService.findAll());
-        model.addAttribute("managers", userService.listAllByRole("Manager"));
+        model.addAttribute("managers", userService.listAllByRole("manager"));
         return "/course/course-create";
     }
 
@@ -35,7 +35,7 @@ public class CourseController {
                                RedirectAttributes redirectAttributes, Model model){
         if (bindingResult.hasErrors()){
             model.addAttribute("courses", courseService.findAll());
-            model.addAttribute("managers", userService.listAllByRole("Manager"));
+            model.addAttribute("managers", userService.listAllByRole("manager"));
             return "/course/course-create";
         }
         CourseDTO saved = courseService.save(courseDTO);
@@ -46,14 +46,14 @@ public class CourseController {
     @GetMapping("/update/{id}")
     public String editCourse(@PathVariable Long id, Model model){
         model.addAttribute("course", courseService.findById(id));
-        model.addAttribute("managers", userService.listAllByRole("Manager"));
+        model.addAttribute("managers", userService.listAllByRole("manager"));
         return "/course/course-update";
     }
 
     @PostMapping("/update/{id}")
     public String updateCourse(@ModelAttribute("course") CourseDTO courseDTO, BindingResult bindingResult, Model model){
         if (bindingResult.hasErrors()){
-            model.addAttribute("managers", userService.listAllByRole("Manager"));
+            model.addAttribute("managers", userService.listAllByRole("manager"));
             return "/course/course-update";
         }
         courseService.update(courseDTO);
