@@ -61,7 +61,7 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public LessonDTO update(LessonDTO lesson) {
-        return null;
+        return mapper.convert(lessonRepository.save(mapper.convert(lesson, new Lesson())), new LessonDTO());
     }
 
     @Override
