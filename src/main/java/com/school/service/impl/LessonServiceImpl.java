@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class LessonServiceImpl implements LessonService {
@@ -40,7 +41,8 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public LessonDTO findById(Long id) {
-        return null;
+        Lesson foundLesson = lessonRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Lesson not found."));
+        return mapper.convert(foundLesson, new LessonDTO());
     }
 
     @Override
@@ -64,7 +66,13 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public void delete(Long id) {
-
+        Lesson foundLesson = lessonRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Lesson not found."));
+        foundLesson.setIsDeleted(true);
+        lessonRepository.save(foundLesson);
+        studentLessonService.findAllByLessonId(id).forEach(studentLessonDto -> {
+            studentLessonDto.setLesson(new LessonDTO());
+            studentLessonService.save(studentLessonDto);
+        });
     }
 
     @Override
