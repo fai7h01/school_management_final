@@ -11,6 +11,7 @@ import com.school.service.CourseStudentService;
 import com.school.service.LessonService;
 import com.school.service.StudentLessonService;
 import com.school.util.MapperUtil;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class LessonServiceImpl implements LessonService {
     private final CourseStudentService courseStudentService;
     private final StudentLessonService studentLessonService;
 
-    public LessonServiceImpl(LessonRepository lessonRepository, MapperUtil mapper, CourseService courseService, CourseStudentService courseStudentService, StudentLessonService studentLessonService) {
+    public LessonServiceImpl(LessonRepository lessonRepository, MapperUtil mapper, @Lazy CourseService courseService, CourseStudentService courseStudentService, StudentLessonService studentLessonService) {
         this.lessonRepository = lessonRepository;
         this.mapper = mapper;
         this.courseService = courseService;
@@ -44,15 +45,15 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public LessonDTO save(LessonDTO lesson) {
+        Lesson saved = lessonRepository.save(mapper.convert(lesson, new Lesson()));
         CourseDTO course = courseService.findById(lesson.getCourse().getId());
         List<CourseStudentDTO> courseStudentDTOS = courseStudentService.findAllByCourseIdAndIsEnrolled(course.getId(), true);
         courseStudentDTOS.forEach(courseStudentDTO -> {
             StudentLessonDto studentLessonDto = new StudentLessonDto();
-            studentLessonDto.setLesson(lesson);
+            studentLessonDto.setLesson(mapper.convert(saved, new LessonDTO()));
             studentLessonDto.setStudent(courseStudentDTO.getStudent());
             studentLessonService.save(studentLessonDto);
         });
-        Lesson saved = lessonRepository.save(mapper.convert(lesson, new Lesson()));
         return mapper.convert(saved, new LessonDTO());
     }
 
