@@ -8,6 +8,7 @@ import com.school.util.MapperUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class StudentLessonServiceImpl implements StudentLessonService {
@@ -30,5 +31,12 @@ public class StudentLessonServiceImpl implements StudentLessonService {
     public List<StudentLessonDto> findAllByLessonId(Long id) {
         return studentLessonRepository.findAllByLessonId(id).stream()
                 .map(studentLesson -> mapper.convert(studentLesson, new StudentLessonDto())).toList();
+    }
+
+    @Override
+    public void delete(Long id) {
+        StudentLesson found = studentLessonRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Student/lesson not found."));
+        found.setIsDeleted(true);
+        studentLessonRepository.save(found);
     }
 }

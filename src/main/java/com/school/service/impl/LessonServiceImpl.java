@@ -5,6 +5,7 @@ import com.school.dto.CourseStudentDTO;
 import com.school.dto.LessonDTO;
 import com.school.dto.StudentLessonDto;
 import com.school.entity.Lesson;
+import com.school.entity.StudentLesson;
 import com.school.repository.LessonRepository;
 import com.school.service.CourseService;
 import com.school.service.CourseStudentService;
@@ -69,10 +70,7 @@ public class LessonServiceImpl implements LessonService {
         Lesson foundLesson = lessonRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Lesson not found."));
         foundLesson.setIsDeleted(true);
         lessonRepository.save(foundLesson);
-        studentLessonService.findAllByLessonId(id).forEach(studentLessonDto -> {
-            studentLessonDto.setLesson(null);
-            studentLessonService.save(studentLessonDto);
-        });
+        studentLessonService.findAllByLessonId(id).forEach(studentLessonDto -> studentLessonService.delete(studentLessonDto.getId()));
     }
 
     @Override

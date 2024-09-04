@@ -8,5 +8,5 @@ public interface StudentLessonService {
 
     StudentLessonDto save(StudentLessonDto studentLessonDto);
     List<StudentLessonDto> findAllByLessonId(Long id);
-
+    void delete(Long id);
 }
