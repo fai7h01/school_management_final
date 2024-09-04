@@ -8,6 +8,7 @@ import com.school.util.MapperUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -27,6 +28,12 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public StudentDTO findById(Long id) {
+        Student foundStudent = studentRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Student not found."));
+        return mapper.convert(foundStudent, new StudentDTO());
+    }
+
+    @Override
     public StudentDTO save(StudentDTO student) {
         Student saved = studentRepository.save(mapper.convert(student, new Student()));
         return mapper.convert(saved, new StudentDTO());
@@ -34,7 +41,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentDTO update(StudentDTO student) {
-        return null;
+        return mapper.convert(studentRepository.save(mapper.convert(student, new Student())), new StudentDTO());
     }
 
     @Override

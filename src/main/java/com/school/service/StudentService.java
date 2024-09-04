@@ -8,6 +8,8 @@ public interface StudentService {
 
     List<StudentDTO> findAll();
 
+    StudentDTO findById(Long id);
+
     StudentDTO save(StudentDTO student);
 
     StudentDTO update(StudentDTO student);
