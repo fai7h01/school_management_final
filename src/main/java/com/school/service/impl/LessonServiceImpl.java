@@ -70,7 +70,7 @@ public class LessonServiceImpl implements LessonService {
         foundLesson.setIsDeleted(true);
         lessonRepository.save(foundLesson);
         studentLessonService.findAllByLessonId(id).forEach(studentLessonDto -> {
-            studentLessonDto.setLesson(new LessonDTO());
+            studentLessonDto.setLesson(null);
             studentLessonService.save(studentLessonDto);
         });
     }
