@@ -1,6 +1,7 @@
 package com.school.service.impl;
 
 import com.school.dto.StudentDTO;
+import com.school.entity.Student;
 import com.school.repository.StudentRepository;
 import com.school.service.StudentService;
 import com.school.util.MapperUtil;
@@ -23,5 +24,21 @@ public class StudentServiceImpl implements StudentService {
     public List<StudentDTO> findAll() {
         return studentRepository.findAll().stream()
                 .map(student -> mapper.convert(student, new StudentDTO())).toList();
+    }
+
+    @Override
+    public StudentDTO save(StudentDTO student) {
+        Student saved = studentRepository.save(mapper.convert(student, new Student()));
+        return mapper.convert(saved, new StudentDTO());
+    }
+
+    @Override
+    public StudentDTO update(StudentDTO student) {
+        return null;
+    }
+
+    @Override
+    public void delete(Long id) {
+
     }
 }

@@ -8,4 +8,10 @@ public interface StudentService {
 
     List<StudentDTO> findAll();
 
+    StudentDTO save(StudentDTO student);
+
+    StudentDTO update(StudentDTO student);
+
+    void delete(Long id);
+
 }
