@@ -21,6 +21,7 @@ public class StudentController {
     @GetMapping("/create")
     public String studentCreate(Model model){
         model.addAttribute("student", new StudentDTO());
+        model.addAttribute("students", studentService.findAll());
         model.addAttribute("states", State.values());
         return "/student/student-create";
     }
