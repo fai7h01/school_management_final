@@ -52,4 +52,10 @@ public class StudentController {
         studentService.update(studentDTO);
         return "redirect:/student/create";
     }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteStudent(@PathVariable Long id){
+        studentService.delete(id);
+        return "redirect:/student/create";
+    }
 }

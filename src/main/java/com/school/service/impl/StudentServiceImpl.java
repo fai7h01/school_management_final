@@ -46,6 +46,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void delete(Long id) {
-
+        /* 1. check if student is enrolled in any course
+           2. check if enrolled student has any lessons or assessments
+         */
     }
 }
