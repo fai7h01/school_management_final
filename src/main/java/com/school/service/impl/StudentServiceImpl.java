@@ -1,5 +1,7 @@
 package com.school.service.impl;
 
+import com.school.dto.CourseStudentDTO;
+import com.school.dto.LessonStudentDTO;
 import com.school.dto.StudentDTO;
 import com.school.entity.Student;
 import com.school.repository.StudentRepository;
@@ -57,5 +59,12 @@ public class StudentServiceImpl implements StudentService {
            2. check if enrolled student has any lessons or assessments
                 find studentLessons by student id and delete all of them
          */
+        Student foundStudent = studentRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Student not found."));
+        List<CourseStudentDTO> courseStudentDTOS = courseStudentService.findAllByStudentIdAndIsEnrolled(id, true);
+        courseStudentDTOS.forEach(courseStudentDTO -> courseStudentService.delete(courseStudentDTO.getId()));
+        List<LessonStudentDTO> lessonStudentDTOS = lessonStudentService.findAllByStudentId(id);
+        lessonStudentDTOS.forEach(lessonStudentDTO -> lessonStudentService.delete(lessonStudentDTO.getId()));
+        foundStudent.setIsDeleted(true);
+        studentRepository.save(foundStudent);
     }
 }

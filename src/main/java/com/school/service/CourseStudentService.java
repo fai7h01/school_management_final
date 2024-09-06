@@ -7,5 +7,6 @@ import java.util.List;
 public interface CourseStudentService {
 
     List<CourseStudentDTO> findAllByCourseIdAndIsEnrolled(Long courseId, boolean enrolled);
-
+    List<CourseStudentDTO> findAllByStudentIdAndIsEnrolled(Long studentId, boolean enrolled);
+    void delete(Long id);
 }

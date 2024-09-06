@@ -8,5 +8,5 @@ import java.util.List;
 public interface CourseStudentRepository extends JpaRepository<CourseStudent, Long> {
 
     List<CourseStudent> findAllByCourseIdAndIsEnrolled(Long id, boolean enrolled);
-
+    List<CourseStudent> findAllByStudentIdAndIsEnrolled(Long id, boolean enrolled);
 }
