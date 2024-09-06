@@ -1,12 +1,12 @@
 package com.school.repository;
 
-import com.school.entity.StudentLesson;
+import com.school.entity.LessonStudent;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface StudentLessonRepository extends JpaRepository<StudentLesson, Long> {
+public interface StudentLessonRepository extends JpaRepository<LessonStudent, Long> {
 
-    List<StudentLesson> findAllByLessonId(Long id);
+    List<LessonStudent> findAllByLessonId(Long id);
 
 }

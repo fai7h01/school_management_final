@@ -42,14 +42,14 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="studentLesson:${studentLessons}">
-                                    <td th:text="${studentLesson.student.firstName} + ' ' + ${studentLesson.student.lastName}"></td>
-                                    <td th:text="${studentLesson.lesson.name}"></td>
-                                    <td th:text="${#temporals.format(studentLesson.student.lessonGrade.get(studentLesson.lesson).date,'MM.dd.yyyy')}"></td>
-                                    <td th:text="${studentLesson.student.lessonGrade.get(studentLesson.lesson).grade}"></td>
-                                    <td th:text="${studentLesson.student.lessonGrade.get(studentLesson.lesson).instructorImpressionOfStudent}"></td>
+                                <tr th:each="lessonStudent:${studentLessons}">
+                                    <td th:text="${lessonStudent.student.firstName} + ' ' + ${lessonStudent.student.lastName}"></td>
+                                    <td th:text="${lessonStudent.lesson.name}"></td>
+                                    <td th:text="${#temporals.format(lessonStudent.student.lessonGrade.get(lessonStudent.lesson).date,'MM.dd.yyyy')}"></td>
+                                    <td th:text="${lessonStudent.student.lessonGrade.get(lessonStudent.lesson).grade}"></td>
+                                    <td th:text="${lessonStudent.student.lessonGrade.get(lessonStudent.lesson).instructorImpressionOfStudent}"></td>
                                     <td>
-                                        <a th:href="@{/instructor/students/{email}/{id} (email=${studentLesson.student.email}, id=${studentLesson.lesson.id})}">
+                                        <a th:href="@{/instructor/students/{email}/{id} (email=${lessonStudent.student.email}, id=${lessonStudent.lesson.id})}">
                                             <button type="button" class="btn btn-facebook">Assess</button>
                                         </a>
                                     </td>

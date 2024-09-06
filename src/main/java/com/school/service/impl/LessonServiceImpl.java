@@ -3,14 +3,13 @@ package com.school.service.impl;
 import com.school.dto.CourseDTO;
 import com.school.dto.CourseStudentDTO;
 import com.school.dto.LessonDTO;
-import com.school.dto.StudentLessonDto;
+import com.school.dto.LessonStudentDTO;
 import com.school.entity.Lesson;
-import com.school.entity.StudentLesson;
 import com.school.repository.LessonRepository;
 import com.school.service.CourseService;
 import com.school.service.CourseStudentService;
 import com.school.service.LessonService;
-import com.school.service.StudentLessonService;
+import com.school.service.LessonStudentService;
 import com.school.util.MapperUtil;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -25,14 +24,14 @@ public class LessonServiceImpl implements LessonService {
     private final MapperUtil mapper;
     private final CourseService courseService;
     private final CourseStudentService courseStudentService;
-    private final StudentLessonService studentLessonService;
+    private final LessonStudentService lessonStudentService;
 
-    public LessonServiceImpl(LessonRepository lessonRepository, MapperUtil mapper, @Lazy CourseService courseService, CourseStudentService courseStudentService, StudentLessonService studentLessonService) {
+    public LessonServiceImpl(LessonRepository lessonRepository, MapperUtil mapper, @Lazy CourseService courseService, CourseStudentService courseStudentService, LessonStudentService lessonStudentService) {
         this.lessonRepository = lessonRepository;
         this.mapper = mapper;
         this.courseService = courseService;
         this.courseStudentService = courseStudentService;
-        this.studentLessonService = studentLessonService;
+        this.lessonStudentService = lessonStudentService;
     }
 
     @Override
@@ -52,10 +51,10 @@ public class LessonServiceImpl implements LessonService {
         CourseDTO course = courseService.findById(lesson.getCourse().getId());
         List<CourseStudentDTO> courseStudentDTOS = courseStudentService.findAllByCourseIdAndIsEnrolled(course.getId(), true);
         courseStudentDTOS.forEach(courseStudentDTO -> {
-            StudentLessonDto studentLessonDto = new StudentLessonDto();
-            studentLessonDto.setLesson(mapper.convert(saved, new LessonDTO()));
-            studentLessonDto.setStudent(courseStudentDTO.getStudent());
-            studentLessonService.save(studentLessonDto);
+            LessonStudentDTO lessonStudentDTO = new LessonStudentDTO();
+            lessonStudentDTO.setLesson(mapper.convert(saved, new LessonDTO()));
+            lessonStudentDTO.setStudent(courseStudentDTO.getStudent());
+            lessonStudentService.save(lessonStudentDTO);
         });
         return mapper.convert(saved, new LessonDTO());
     }
@@ -70,7 +69,7 @@ public class LessonServiceImpl implements LessonService {
         Lesson foundLesson = lessonRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Lesson not found."));
         foundLesson.setIsDeleted(true);
         lessonRepository.save(foundLesson);
-        studentLessonService.findAllByLessonId(id).forEach(studentLessonDto -> studentLessonService.delete(studentLessonDto.getId()));
+        lessonStudentService.findAllByLessonId(id).forEach(lessonStudentDTO -> lessonStudentService.delete(lessonStudentDTO.getId()));
     }
 
     @Override

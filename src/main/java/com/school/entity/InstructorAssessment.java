@@ -24,6 +24,6 @@ public class InstructorAssessment extends BaseEntity{
     private String instructorImpressionOfStudent;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private StudentLesson studentLesson;
+    private LessonStudent lessonStudent;
 
 }

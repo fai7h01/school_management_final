@@ -3,6 +3,8 @@ package com.school.service.impl;
 import com.school.dto.StudentDTO;
 import com.school.entity.Student;
 import com.school.repository.StudentRepository;
+import com.school.service.CourseStudentService;
+import com.school.service.LessonStudentService;
 import com.school.service.StudentService;
 import com.school.util.MapperUtil;
 import org.springframework.stereotype.Service;
@@ -15,10 +17,14 @@ public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
     private final MapperUtil mapper;
+    private final CourseStudentService courseStudentService;
+    private final LessonStudentService lessonStudentService;
 
-    public StudentServiceImpl(StudentRepository studentRepository, MapperUtil mapper) {
+    public StudentServiceImpl(StudentRepository studentRepository, MapperUtil mapper, CourseStudentService courseStudentService, LessonStudentService lessonStudentService) {
         this.studentRepository = studentRepository;
         this.mapper = mapper;
+        this.courseStudentService = courseStudentService;
+        this.lessonStudentService = lessonStudentService;
     }
 
     @Override
@@ -47,7 +53,9 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void delete(Long id) {
         /* 1. check if student is enrolled in any course
+                find courseStudent by student id and delete all of them
            2. check if enrolled student has any lessons or assessments
+                find studentLessons by student id and delete all of them
          */
     }
 }

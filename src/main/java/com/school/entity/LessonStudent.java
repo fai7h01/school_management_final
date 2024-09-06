@@ -15,7 +15,7 @@ import org.hibernate.annotations.SQLRestriction;
 @AllArgsConstructor
 @Entity
 @SQLRestriction("is_deleted is false")
-public class StudentLesson extends BaseEntity{
+public class LessonStudent extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     public Lesson lesson;
