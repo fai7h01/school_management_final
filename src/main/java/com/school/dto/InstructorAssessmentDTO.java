@@ -17,7 +17,7 @@ public class InstructorAssessmentDTO {
 
     private Long id;
 
-    private LessonStudentDTO studentLesson;
+    private LessonStudentDTO lessonStudent;
 
     private LocalDate gradeDate;
     @NotNull(message = "Grade can not be empty!")
